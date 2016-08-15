@@ -1,0 +1,137 @@
+package com.frankie.guesscharacter;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class QuizHelper extends SQLiteOpenHelper {
+	private static final int DATABASE_VERSION = 1;
+	// Database Name
+	private static final String DATABASE_NAME = "Questions and Answers";
+	// tasks table name
+	private static final String TABLE_QUEST = "quest";
+	// tasks Table Columns names
+	private static final String KEY_ID = "qid";
+	private static final String KEY_QUES = "question";
+	private static final String KEY_ANSWER = "answer"; // correct option
+	private static final String Button_option1 = "option1";
+	private static final String Button_option2 = "option2";
+	private static final String Button_option3 = "option3";
+
+	private SQLiteDatabase dbase;
+
+	public QuizHelper(Context context) {
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+	}
+
+	@Override
+	public void onCreate(SQLiteDatabase db) {
+		dbase = db;
+		String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_QUEST + " ( "
+				+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_QUES
+				+ " TEXT, " + KEY_ANSWER + " TEXT, " + Button_option1 + " TEXT, "
+				+ Button_option2 + " TEXT, " + Button_option3 + " TEXT)";
+		db.execSQL(sql);
+		addQuestion();
+		// db.close();
+	}
+
+	private void addQuestion() {
+		Question q1 = new Question("Who said, Just gimme some innner peace or I'll mop the floor with ya!?", "Moe", "Homer", "Willy", "Homer");
+		this.addQuestion(q1);
+		Question q2 = new Question("How many babies did Apu and Manjula have?", "7", "8", "9", "8");
+		this.addQuestion(q2);
+		Question q3 = new Question("What is the name of Springfield's baseball team?", "Springfield Atoms", "Springfield Sparklers", "Springfield Isotopes", "Springfield Isotopes");
+		this.addQuestion(q3);
+		Question q4 = new Question("Who said, I would die a happy man if I could prove to you that Homer Simpson has the intelligence of a six year old.?", "Frank Grimes", "Mr. Burns", "Mr Smithers", "Frank Grimes");
+		this.addQuestion(q4);
+		Question q5 = new Question("What kind of car does Kearny drive?", "Chrysler", "Hyundai", "Volkswagon", "Hyundai");
+		this.addQuestion(q5);
+		Question q6 = new Question("In what part of the nuclear power plant does Homer work?", "Sector 7D", "Sector 7B", "sector 7G", "sector 7G");
+		this.addQuestion(q6);
+		Question q7 = new Question("Who was Marge's bowling instructor?", "Jaques", "John", "Jim", "Jaques");
+		this.addQuestion(q7);
+		Question q8 = new Question("What type of animal is Homer's spiritual guide?", "Bear", "Coyote", "Lobsters", "Coyote");
+		this.addQuestion(q8);
+		Question q9 = new Question("In Mr. Burns' remote estate, which floor does the blood usually get off at?", "Second", "Third", "Sixth", "Second");
+		this.addQuestion(q9);
+		Question q10 = new Question("Which person was never in Homer's barbershop quartet when they won an Grammy?", "Apu", "Chief Wiggum", "Barney", "Chief Wiggum");
+		this.addQuestion(q10);
+		Question q11 = new Question("What did Homer buy from the Kwik-E-Mart instead of a winning lotto ticket?", "Yodle", "Chips", "Choclate Bar", "Yodle");
+		this.addQuestion(q11);
+		Question q12 = new Question("Who said, 'This is why I don't talk much', after making everybody at Moe's feel bad?", "Lenny", "Barney", "Carl", "Carl");
+		this.addQuestion(q12);
+		Question q13 = new Question("Who was the musical guest on Krusty's Komeback Special?", "Cypress Hill", "ZZ Top", " Red Hot Chili Peppers", " Red Hot Chili Peppers");
+		this.addQuestion(q13);
+		Question q14 = new Question("What is Dr. Nick's last name?", "Hibbit", "Nolty", "Riviera", "Riviera");
+		this.addQuestion(q14);
+		Question q15 = new Question("What book did Homer read to see if he was disabled?", "Am I Disabled?", "Disability? am I In hell", "work Sh'merk", "Am I Disabled?");
+		this.addQuestion(q15);
+		Question q16 = new Question("What show does Kent Brockman host?", "Live at 5", "Eye on Springfield", "Springfields Most Wanted", "Eye on Springfield");
+		this.addQuestion(q16);
+		Question q17 = new Question("Whom do the Stonecutters claim to make a star?", "Jim Carey", "Paul McCartney", "Steve Guttenberg", "Steve Guttenberg");
+		this.addQuestion(q17);
+		Question q18 = new Question("What is principal Skinner's mother's first name?", "Joanne", "Agnes", "Martha", "Agnes");
+		this.addQuestion(q18);
+		Question q19 = new Question("What is Mr. Smithers' first name?", "Waylon", "Andrew", "John", "Waylon");
+		this.addQuestion(q19);
+		Question q20 = new Question("What is the name of the sea captain that Homer sued?", "Murdock", "McCallister", "Ivory", "McCallister");
+		this.addQuestion(q20);
+		Question q21 = new Question("Which of these didn't pass Homer while he was sitting on the lawn, waiting for his gun?", "Deer", "Flanders", "Ducks", "Deer");
+		this.addQuestion(q21);
+		// END
+	}
+
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldV, int newV) {
+		// Drop older table if existed
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUEST);
+		// Create tables again
+		onCreate(db);
+	}
+
+	// Adding new question
+	public void addQuestion(Question quest) {
+		// SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(KEY_QUES, quest.getQUESTION());
+		values.put(KEY_ANSWER, quest.getANSWER());
+		values.put(Button_option1, quest.getOption1());
+		values.put(Button_option2, quest.getOption2());
+		values.put(Button_option3, quest.getOption3());
+
+		// Inserting Row
+		dbase.insert(TABLE_QUEST, null, values);
+	}
+
+	public List<Question> getAllQuestions() {
+		List<Question> quesList = new ArrayList<Question>();
+		// Select All Query
+		String selectQuery = "SELECT  * FROM " + TABLE_QUEST;
+		dbase = this.getReadableDatabase();
+		Cursor cursor = dbase.rawQuery(selectQuery, null);
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				Question quest = new Question();
+				quest.setID(cursor.getInt(0));
+				quest.setQUESTION(cursor.getString(1));
+				quest.setANSWER(cursor.getString(2));
+				quest.setOption1(cursor.getString(3));
+				quest.setOption2(cursor.getString(4));
+				quest.setOption3(cursor.getString(5));
+
+				quesList.add(quest);
+			} while (cursor.moveToNext());
+		}
+		// return quest list
+		return quesList;
+	}
+
+
+}
