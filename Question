@@ -1,0 +1,86 @@
+package com.frankie.guesscharacter;
+
+import android.app.Activity;
+
+public class Question extends Activity {
+
+	private int ID;
+	private String QUESTION;
+	private String Option1;
+	private String Option2;
+	private String Option3;
+
+	private String ANSWER;
+	
+
+	public Question() {
+		ID = 0;
+		QUESTION = "";
+		Option1 = "";
+		Option2 = "";
+		Option3 = "";
+
+		ANSWER = "";
+
+	}
+
+	public Question(String qUESTION, String oPTA, String oPTB, String oPTC,
+					String aNSWER) {
+		QUESTION = qUESTION;
+		Option1 = oPTA;
+		Option2 = oPTB;
+		Option3 = oPTC;
+
+		ANSWER = aNSWER;
+
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public String getQUESTION() {
+		return QUESTION;
+	}
+
+	public String getOption1() {
+		return Option1;
+	}
+
+	public String getOption2() {
+		return Option2;
+	}
+
+	public String getOption3() {
+		return Option3;
+	}
+
+	public String getANSWER() {
+		return ANSWER;
+	}
+
+	public void setID(int id) {
+		ID = id;
+	}
+
+	public void setQUESTION(String qUESTION) {
+		QUESTION = qUESTION;
+	}
+
+	public void setOption1(String oPTA) {
+		Option1 = oPTA;
+	}
+
+	public void setOption2(String oPTB) {Option2 = oPTB;
+	}
+
+	public void setOption3(String oPTC) {
+		Option3 = oPTC;
+	}
+
+	public void setANSWER(String aNSWER) {
+		ANSWER = aNSWER;
+	}
+
+}
+
